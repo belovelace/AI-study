@@ -150,3 +150,75 @@ Depthwise Separable = 공간 학습 (먼저) + 채널 학습 (나중)
 
 - 각 단계가 명확한 역할 분담 → 학습이 더 안정적
 - 공간/채널 특징을 독립적으로 최적화 가능
+
+  # CBAM (ECCV 2018)
+
+[arxiv.org/pdf/1807.06521.pdf](http://arxiv.org/pdf/1807.06521.pdf)https://blog.naver.com/winddori2002/222057978305https://ffighting.net/deep-learning-paper-review/vision-model/cbam/
+
+---
+
+### 배경지식-BAM
+
+: CNN에 적용 가능한 어텐션 모듈
+
+어텐션 모듈의 구성 요소 특징)  Channel attention branch, Spatial attention branch가 병렬적으로 수행한 후 병합
+
+### 배경지식-어텐션 메커니즘((Attention Mechanism) 유형
+
+1. Channel attention
+    
+    ‘무엇’에 집중
+    
+    채널의 중요도를 학습
+    
+2. Spatial Attention Branch
+    
+    ‘어디’에 집중
+    
+    공간적 위치의 중요도 학습
+    
+
+Channel Attention Branch = 특징의 중요도 학습
+
+Spatial Attention Branch = 위치의 중요도 학습
+
+### CBAM(Convolutional Block Attention Module)
+
+: Channel attention + Spatial Attention Branch 순차적으로 결합
+
+### 방법
+
+Channel Attention Module)
+
+- Global Average Pooling과 Global Max Pooling을 병렬로 적용
+- 공유된 MLP(Multi-Layer Perceptron)를 통과
+- 두 결과를 합산(element-wise sum)
+- Sigmoid 활성화 함수로 0~1 사이의 가중치 생성
+- 원본 feature map에 채널별로 곱하기
+
+```html
+AvgPool ──→ MLP ──┐
+                   ├──→ Sum → Sigmoid → Channel weights
+MaxPool ──→ MLP ──┘
+```
+
+Spatial Attention Branch)
+
+- 채널 차원을 따라 Average Pooling과 Max Pooling 수행
+- 두 결과를 채널 방향으로 concat (2개 채널 생성)
+- 7×7 Conv 레이어 통과
+- Sigmoid 활성화 함수로 0~1 사이의 공간 가중치 생성
+- 입력 feature map에 위치별로 곱하기
+
+```html
+Channel-wise AvgPool ──┐
+                        ├──→ Concat → 7×7 Conv → Sigmoid → Spatial weights
+Channel-wise MaxPool ──┘
+```
+
+Channel Attention Module : 먼저 입력 피처 맵에 대해 채널별로 중요한 정보를 학습하고, 채널별로 가중치를 적용
+
+- https://zzziito.tistory.com/52
+  Spatial Attention Module : 채널 어텐션이 적용된 피처 맵에 대해 공간적으로 중요한 영역을 학습하여 위치별로 다른 가중치를 적용
+- https://zzziito.tistory.com/53
+  Global Average Pooling(정보를 압축) + Global Max Pooling(가장 의미 있는 정보 추출)
