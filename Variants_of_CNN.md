@@ -37,3 +37,52 @@ SEet : cnn에서  중요한 부분에 집중할 수 있는 기능을 구현
     - 파라미터들이 중요도를 학습 (역전파)
 
 역전파를 통해 파라미터들이 중요도를 학습하는 과정이 파라미터 연산이고 이는 압축만으로 채널의 중요도를 알 수 없기 때문
+
+# GoogleNet (CVPR 2014)
+
+(= Inception module)
+
+https://arxiv.org/abs/1409.4842https://www.ytimes.co.kr/news/articleView.html?idxno=7149
+
+https://arxiv.org/abs/1409.4842
+
+(참고자료 추가) https://happy-support.tistory.com/64
+
+---
+
+### 특징
+
+1. Inception module: 다양한 사이즈의 filter와 pooling 레이어로 이루어진 구조
+2. 1x1 convolutional layer: 차원 감소를 위한 레이어
+3. Auxiliary classifier: 효율적인 backpropagation을 위한 장치
+
+⇒ 여러 크기의 필터를 병렬로 적용하여 다양한 스케일의 특징을 동시에 추출하는 모듈
+
+## Inception의 장점
+
+1.  다양한 스케일 정보 포착
+    
+    작은 물체부터 큰 물체까지 동시에 감지
+    
+2. 계산 효율성
+    
+    1×1 Conv로 파라미터 수 대폭 감소
+    
+3. 네트워크 깊이 증가 가능
+    
+    GoogLeNet은 22층으로 당시 매우 깊었음
+    
+
+### 1×1 Conv
+
+: 1×1 크기의 필터를 사용하는 컨벌루션 연산
+
+일반 )
+
+3×3, 5×5 등으로 주변 픽셀을 봄 (공간 정보 활용)
+
+1×1 Conv)
+
+한 픽셀 위치에서 모든 채널을 섞음 (채널 정보만 활용)
+
+→ 채널 수 조절과 계산량 감소에 사용
