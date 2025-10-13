@@ -56,7 +56,7 @@ https://arxiv.org/abs/1409.4842
 2. 1x1 convolutional layer: 차원 감소를 위한 레이어
 3. Auxiliary classifier: 효율적인 backpropagation을 위한 장치
 
-⇒ 여러 크기의 필터를 병렬로 적용하여 다양한 스케일의 특징을 동시에 추출하는 모듈
+-> 여러 크기의 필터를 병렬로 적용하여 다양한 스케일의 특징을 동시에 추출하는 모듈
 
 ## Inception의 장점
 
